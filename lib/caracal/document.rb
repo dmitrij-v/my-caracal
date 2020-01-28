@@ -161,6 +161,7 @@ module Caracal
         render_styles(zip)
         render_document(zip)
         render_relationships(zip)   # Must go here: Depends on document renderer
+        render_footer_relationships(zip)
         render_media(zip)           # Must go here: Depends on document renderer
         render_numbering(zip)       # Must go here: Depends on document renderer
       end
@@ -271,6 +272,13 @@ module Caracal
       content = ::Caracal::Renderers::RelationshipsRenderer.render(self)
 
       zip.put_next_entry('word/_rels/document.xml.rels')
+      zip.write(content)
+    end
+
+    def render_footer_relationships(zip)
+      content = ::Caracal::Renderers::RelationshipsRenderer.render(self)
+
+      zip.put_next_entry('word/_rels/footer1.xml.rels')
       zip.write(content)
     end
 
